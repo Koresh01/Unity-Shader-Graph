@@ -63,7 +63,7 @@ public class PlayerMove : MonoBehaviour
     {
         // Двигаем игрока в пространстве
         Vector3 move = transform.forward * moveDelta.y + transform.right * moveDelta.x;
-        rb.velocity = new Vector3(move.x * moveSpeed, rb.velocity.y, move.z * moveSpeed);
+        rb.linearVelocity = new Vector3(move.x * moveSpeed, rb.linearVelocity.y, move.z * moveSpeed);
     }
 
     void HandleLook()

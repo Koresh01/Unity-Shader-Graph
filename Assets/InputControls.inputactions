@@ -1,0 +1,120 @@
+{
+    "name": "InputControls",
+    "maps": [
+        {
+            "name": "PlayerMove",
+            "id": "b4e838b2-5ba8-4975-838d-09507fe14591",
+            "actions": [
+                {
+                    "name": "WASD",
+                    "type": "Value",
+                    "id": "623ed748-6a4e-4cfb-b0a3-b0d90beca4e6",
+                    "expectedControlType": "Vector2",
+                    "processors": "NormalizeVector2",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LOOK",
+                    "type": "Value",
+                    "id": "f5c25fb3-24ac-4433-ace3-ac2679a9863d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "305378f1-be6a-4a06-960a-e83670a2f7b6",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WASD",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "893dd47c-e731-401d-b85c-c82c9643b00d",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WASD",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "28476fab-c80c-4928-bcda-03882b47ecc0",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WASD",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "bd18153e-7d3e-4bcd-94b3-4e3bf1e8341e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WASD",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "761c8193-8bd3-42ba-b4ee-e02763dcfc79",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WASD",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "24086bf7-21c3-45ee-b57d-1c592738039f",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WASD",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a19e4c8f-6661-4caf-a5da-578f3c0322eb",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=28,y=28)",
+                    "groups": "",
+                    "action": "LOOK",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "edca9cd0-df3f-4826-9514-e3b02ddd7077",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LOOK",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

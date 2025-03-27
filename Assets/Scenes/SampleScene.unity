@@ -715,7 +715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  lookSpeed: 0.1
+  lookSpeed: 0.08
   moveDelta: {x: 0, y: 0}
   lookDelta: {x: 0, y: 0}
 --- !u!1660057539 &9223372036854775807

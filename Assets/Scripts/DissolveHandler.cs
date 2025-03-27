@@ -12,7 +12,7 @@ public class DissolveHandler : MonoBehaviour
         Shader shader = _material.shader;
         for (int i = 0; i < shader.GetPropertyCount(); i++)
         {
-            Debug.Log($"Property {i}: {shader.GetPropertyName(i)} ({shader.GetPropertyType(i)})");
+            //Debug.Log($"Property {i}: {shader.GetPropertyName(i)} ({shader.GetPropertyType(i)})");
         }
     }
 

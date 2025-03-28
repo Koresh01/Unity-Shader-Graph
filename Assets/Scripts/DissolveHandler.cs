@@ -1,32 +1,57 @@
+using System.Collections;
 using UnityEngine;
 
-public class DissolveHandler : MonoBehaviour
+public class DissolveEffect : MonoBehaviour
 {
-    [SerializeField] float speed = 1.0f;
-    [SerializeField] float dissolve = 0.0f;
+    [SerializeField] private Renderer objectRenderer;  // Рендер объекта
+    [SerializeField] private float dissolveDuration = 1.5f;  // Время эффекта
+    [SerializeField] private float interval = 3f;  // Интервал между появлением и исчезновением
 
-    [SerializeField] Material _material; // Личный материал для объекта
+    private Material material;
+    private bool isVisible = false;  // Статус объекта
 
     private void Start()
     {
-        Shader shader = _material.shader;
-        for (int i = 0; i < shader.GetPropertyCount(); i++)
+        material = objectRenderer.material;
+        StartCoroutine(ToggleDissolveEffect());
+    }
+
+    private IEnumerator ToggleDissolveEffect()
+    {
+        while (true)
         {
-            //Debug.Log($"Property {i}: {shader.GetPropertyName(i)} ({shader.GetPropertyType(i)})");
+            if (isVisible)
+                yield return StartCoroutine(HideObject());
+            else
+                yield return StartCoroutine(ShowObject());
+
+            yield return new WaitForSeconds(interval);
         }
     }
 
-    private void Update()
+    private IEnumerator ShowObject()
     {
-        // Колебания от 0 до 1
-        dissolve = Mathf.Abs(Mathf.Sin(Time.time * speed));
-
-        // Передаём значение в шейдер
-        if (_material.HasProperty("_dissolve"))
+        float time = 0;
+        while (time < dissolveDuration)
         {
-            _material.SetFloat("_dissolve", dissolve);
+            time += Time.deltaTime;
+            float dissolveValue = Mathf.Lerp(1, 0, time / dissolveDuration);
+            material.SetFloat("_dissolve", dissolveValue);
+            yield return null;
         }
-        else Debug.LogError("Свойство отсутствует");
-        
+        isVisible = true;
+    }
+
+    private IEnumerator HideObject()
+    {
+        float time = 0;
+        while (time < dissolveDuration)
+        {
+            time += Time.deltaTime;
+            float dissolveValue = Mathf.Lerp(0, 1, time / dissolveDuration);
+            material.SetFloat("_dissolve", dissolveValue);
+            yield return null;
+        }
+        isVisible = false;
     }
 }

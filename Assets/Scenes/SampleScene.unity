@@ -677,7 +677,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 388002010}
-  - component: {fileID: 388002011}
   m_Layer: 0
   m_Name: Hologram
   m_TagString: Untagged
@@ -701,21 +700,6 @@ Transform:
   - {fileID: 1307095310}
   m_Father: {fileID: 1385589485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &388002011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 388002009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f088de42a81d6a94ba7d95c9ce062961, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.6
-  dissolve: 0
-  _material: {fileID: 2100000, guid: c14226c9fe9fda6438eb276a7da0365c, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,7 +990,7 @@ GameObject:
   - component: {fileID: 871693240}
   - component: {fileID: 871693241}
   m_Layer: 0
-  m_Name: DissolveLogic
+  m_Name: Dissolve + Logic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1040,9 +1024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f088de42a81d6a94ba7d95c9ce062961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.6
-  dissolve: 0
-  _material: {fileID: 2100000, guid: c14226c9fe9fda6438eb276a7da0365c, type: 2}
+  objectRenderer: {fileID: 2074156429}
+  dissolveDuration: 1
+  interval: 0.8
 --- !u!1 &908819085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +1920,11 @@ Transform:
 --- !u!4 &2074156428 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6ca39b5bf6a5cf844b08b2dfce13d747, type: 3}
+  m_PrefabInstance: {fileID: 1105202786}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2074156429 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 6ca39b5bf6a5cf844b08b2dfce13d747, type: 3}
   m_PrefabInstance: {fileID: 1105202786}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2079877169

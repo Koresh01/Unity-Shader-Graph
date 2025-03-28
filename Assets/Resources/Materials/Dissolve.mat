@@ -55,7 +55,7 @@ Material:
     - _Noise_scale: 25
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _dissolve: 0.86522436
+    - _dissolve: 0.47515598
     m_Colors:
     - _Color: {r: 11.984312, g: 2.2264884, b: 0, a: 0}
   m_BuildTextureStacks: []

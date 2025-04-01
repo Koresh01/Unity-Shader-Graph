@@ -44,11 +44,11 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Speed: 0.1
+    - _Speed: 0.4
     m_Colors:
     - _Base_Color: {r: 0.28773576, g: 1, b: 0.34536338, a: 0}
-    - _Fresnel_Color: {r: 0, g: 1.58698, b: 0.4699258, a: 0}
-    - _Hologram_Texture_Tiling: {r: 0, g: 3, b: 0, a: 0}
+    - _Fresnel_Color: {r: 0, g: 1.58698, b: 0.14905748, a: 0}
+    - _Hologram_Texture_Tiling: {r: 0, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &253158451559767812

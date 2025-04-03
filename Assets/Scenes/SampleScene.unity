@@ -1016,12 +1016,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359155847}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.317, y: 1.502, z: 7.713}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.2830005, y: 1.5009999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 543450652792054735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &388002009
 GameObject:
@@ -3949,6 +3949,7 @@ Transform:
   - {fileID: 873698835929843669}
   - {fileID: 6594615801356623779}
   - {fileID: 1546379096573212492}
+  - {fileID: 359155850}
   m_Father: {fileID: 1385589485}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &873698835929843669
@@ -4192,6 +4193,7 @@ GameObject:
   - component: {fileID: 873698835929843669}
   - component: {fileID: 5340082556928704852}
   - component: {fileID: 3974400148925360977}
+  - component: {fileID: 8208229976530454551}
   m_Layer: 0
   m_Name: Tube
   m_TagString: Untagged
@@ -4199,6 +4201,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!64 &8208229976530454551
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208229976530454550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -309684176625119091, guid: 9876e52134201cb43a70bbb90aa5ff7a, type: 3}
 --- !u!33 &9098467343221874642
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4218,6 +4242,7 @@ GameObject:
   - component: {fileID: 1546379096573212492}
   - component: {fileID: 1306583809480047709}
   - component: {fileID: 5650880039769210462}
+  - component: {fileID: 9141128383160946943}
   m_Layer: 0
   m_Name: Toxic waterfall
   m_TagString: Untagged
@@ -4225,6 +4250,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!64 &9141128383160946943
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9141128383160946942}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5903430068311929538, guid: 9876e52134201cb43a70bbb90aa5ff7a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4235,4 +4282,3 @@ SceneRoots:
   - {fileID: 39370303}
   - {fileID: 1385589485}
   - {fileID: 1922444860}
-  - {fileID: 359155850}

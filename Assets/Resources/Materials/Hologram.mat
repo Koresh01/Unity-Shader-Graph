@@ -13,7 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -42,16 +42,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha_clipping: 0.087
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Speed: 0.4
     m_Colors:
-    - _Base_Color: {r: 0.28773576, g: 1, b: 0.34536338, a: 0}
-    - _Fresnel_Color: {r: 0, g: 1.58698, b: 0.14905748, a: 0}
-    - _Hologram_Texture_Tiling: {r: 0, g: 2, b: 0, a: 0}
+    - _Base_Color: {r: 0.04224169, g: 1, b: 0, a: 0}
+    - _Fresnel_Color: {r: 0.6455918, g: 16, b: 0, a: 0}
+    - _Hologram_Texture_Tiling: {r: 0, g: 120, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &253158451559767812
+--- !u!114 &878895809430196680
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

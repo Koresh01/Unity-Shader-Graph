@@ -55,7 +55,7 @@ Material:
     - _Smoothness: 0
     - _SrcBlend: 1
     - _Surface: 1
-    - _Transparency: 0.01
+    - _Transparency: 0
     - _Transparency_Mask: 0
     - _Voronoi_Agitation: 1
     - _Voronoi_Power: 4.35

@@ -56,7 +56,7 @@ Material:
     - _SrcBlend: 1
     - _Surface: 1
     - _Transparency: 0
-    - _Transparency_Mask: 2.93
+    - _Transparency_Mask: 1.02
     - _Voronoi_Agitation: 1
     - _Voronoi_Power: 4.35
     - _Voronoi_Scale: 10

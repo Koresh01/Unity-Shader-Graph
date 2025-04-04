@@ -176,6 +176,9 @@
         },
         {
             "m_Id": "ef48739f263a4982b4e3d3d14e6976b9"
+        },
+        {
+            "m_Id": "0571e921f2744df78f3a409fc968bbcc"
         }
     ],
     "m_GroupDatas": [
@@ -197,6 +200,20 @@
     ],
     "m_StickyNoteDatas": [],
     "m_Edges": [
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "0571e921f2744df78f3a409fc968bbcc"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "5f971aba4d3447f9b65b639e8a7255d7"
+                },
+                "m_SlotId": 1
+            }
+        },
         {
             "m_OutputSlot": {
                 "m_Node": {
@@ -822,6 +839,42 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "0571e921f2744df78f3a409fc968bbcc",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -2031.5067138671875,
+            "y": -1334.95068359375,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "150f37e56edf42e7b87217e3fd05bc68"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "6579c5f03f4d466b96bbdd177aaaebc9"
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "05a7e17761e240e0abfe27f1c568ce65",
     "m_Id": 3,
@@ -927,8 +980,8 @@
     "m_ObjectId": "086e3b714164428ab2bef3a09b1130a2",
     "m_Title": "СМЕЩЕНИЕ UV КАРТЫ ПОВЕРХ ТЕКСТУРЫ",
     "m_Position": {
-        "x": -1926.0,
-        "y": 38.0
+        "x": -1925.9998779296875,
+        "y": 37.99989700317383
     }
 }
 
@@ -1124,6 +1177,21 @@
         "z": 0.0,
         "w": 0.0
     },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "150f37e56edf42e7b87217e3fd05bc68",
+    "m_Id": 0,
+    "m_DisplayName": "Noise",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
     "m_Labels": []
 }
 
@@ -1588,7 +1656,7 @@
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
-        "y": 0.0024999999441206457
+        "y": 1.0
     }
 }
 
@@ -1774,7 +1842,7 @@
     "m_ObjectId": "4264f0d094d346ac91a02b90b47f0e0d",
     "m_Title": "UV ПОЗИЦИИ ВЕРШИН МЕША",
     "m_Position": {
-        "x": -750.0,
+        "x": -750.000244140625,
         "y": -1835.0
     }
 }
@@ -4619,8 +4687,8 @@
     "m_ObjectId": "db7b25847b334d45a5220085065ee886",
     "m_Title": "ВЕКТОР НОРМАЛИ К ПОВЕРХНОСТИ",
     "m_Position": {
-        "x": -1853.000244140625,
-        "y": -1545.0001220703125
+        "x": -1852.9998779296875,
+        "y": -1545.0
     }
 }
 
@@ -5124,8 +5192,8 @@
     "m_ObjectId": "f079d6a2dfbc4351b6c8e78de1099be4",
     "m_Title": "ДРЕБЕЗГ МОРГАНИЯ",
     "m_Position": {
-        "x": -1400.0,
-        "y": 644.0
+        "x": -1399.9998779296875,
+        "y": 643.999755859375
     }
 }
 

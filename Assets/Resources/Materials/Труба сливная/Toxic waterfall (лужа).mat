@@ -42,7 +42,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Alpha_clipping: 0.019
+    - _Alpha_clipping: 0.308
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
@@ -56,8 +56,8 @@ Material:
     - _Smoothness: 0
     - _SrcBlend: 1
     - _Surface: 1
-    - _Transparency: 0
-    - _Transparency_Mask: 10
+    - _Transparency: 0.07
+    - _Transparency_Mask: 2.11
     - _Voronoi_Agitation: 1
     - _Voronoi_Power: 4.35
     - _Voronoi_Scale: 10
@@ -72,7 +72,7 @@ Material:
     m_Colors:
     - _Base_Color: {r: 0, g: 0, b: 0, a: 0.3921569}
     - _Normals_Speed: {r: 0, g: 0.2, b: 0, a: 0}
-    - _Voronoi_Color: {r: 0.3906289, g: 3.5471697, b: 0, a: 1}
+    - _Voronoi_Color: {r: 0.7812578, g: 7.0943394, b: 0, a: 1}
     - _Voronoi_Speed: {r: 0, g: 0.1, b: 0, a: 0}
     - _Voronoi_Tiling: {r: 1.2, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []

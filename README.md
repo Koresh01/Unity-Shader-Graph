@@ -1,6 +1,11 @@
 # Unity-Shader-Graph
-Создаю различные эффекты используя Shader Graph в Unity. URP проект.
+Создаю различные эффекты используя:
+* Shader Graph в Unity (шейдеры).
+* VFX Effect Graph (ноывя система частиц)
 
-![image](https://github.com/user-attachments/assets/e3737ec4-3754-473d-8a29-6e626f56b9ab)
+URP проект.
+
+<img width="1919" height="700" alt="image" src="https://github.com/user-attachments/assets/129c7540-d0fa-4b3f-887d-3eb8823cf572" />
+
 
 

@@ -3074,7 +3074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  rotationSpeed: 10
+  rotationSpeed: 3.3
   cameraTransform: {fileID: 330585546}
   jumpForce: 5
   isGrounded: 0

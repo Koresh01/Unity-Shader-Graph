@@ -3,6 +3,9 @@
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimatorController : MonoBehaviour
 {
+    [Header("Необходимые ссылки:")]
+    [SerializeField] PlayerMovement playerMovement;
+
     [Header("Настройки анимации:")]
     [SerializeField] private float dampTime = 0.1f; // Плавность переходов анимации
 
@@ -21,6 +24,12 @@ public class PlayerAnimatorController : MonoBehaviour
 
     private void Update()
     {
+        HandleWASD();
+        HandleJumping();
+    }
+
+    void HandleWASD()
+    {
         // Получаем ввод от пользователя (старая система)
         float horizontal = Input.GetAxis("Horizontal"); // A/D или стрелки ← →
         float forward = Input.GetAxis("Vertical");       // W/S или стрелки ↑ ↓
@@ -28,5 +37,13 @@ public class PlayerAnimatorController : MonoBehaviour
         // Плавно изменяем параметры аниматора
         animator.SetFloat(hashHorizontal, horizontal, dampTime, Time.deltaTime);
         animator.SetFloat(hashForward, forward, dampTime, Time.deltaTime);
+    }
+
+    void HandleJumping()
+    {
+        if (playerMovement.isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            animator.SetTrigger("Jump");
+        }
     }
 }

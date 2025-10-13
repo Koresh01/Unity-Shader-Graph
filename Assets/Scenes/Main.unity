@@ -567,7 +567,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.17377947, z: -0, w: 0.9847846}
-  m_LocalPosition: {x: 0.75, y: 1.92, z: -16.75}
+  m_LocalPosition: {x: -1.16, y: 1.92, z: -13.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -630,7 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69019d21786f5f4b9d70cbde9b8acd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1767614576}
+  target: {fileID: 492997549}
   rotationSpeed: 200
   minPitch: -10
   maxPitch: 60
@@ -990,6 +990,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a7be08c233d7e84886049e6ac05b2c7, type: 3}
+--- !u!4 &492997549 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6515712193588681746, guid: 80a131756d1c1ad49b8849a781bb9bf9, type: 3}
+  m_PrefabInstance: {fileID: 1992078607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &577371844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2979,7 +2984,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767614572}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: d1c9342c11015454faa4c6a3514edb30, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 80a131756d1c1ad49b8849a781bb9bf9, type: 3}
   m_Controller: {fileID: 9100000, guid: 74101f2abfab9034b9d96fb6fd660e1a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -3042,11 +3047,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!4 &1767614576 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 80a131756d1c1ad49b8849a781bb9bf9, type: 3}
-  m_PrefabInstance: {fileID: 1992078607}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1767614577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3059,6 +3059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb1710faf0b8284bbee2c8cb18cb3b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 1767614578}
   dampTime: 0.1
 --- !u!114 &1767614578
 MonoBehaviour:
@@ -3075,6 +3076,8 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 10
   cameraTransform: {fileID: 330585546}
+  jumpForce: 5
+  isGrounded: 0
 --- !u!1 &1803517710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3306,7 +3309,7 @@ Transform:
   m_GameObject: {fileID: 1930702068}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.856, y: 0.31, z: 3.87}
+  m_LocalPosition: {x: -10.856, y: 0.31, z: 2.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

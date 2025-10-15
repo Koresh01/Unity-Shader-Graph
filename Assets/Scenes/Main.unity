@@ -1460,6 +1460,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u041C\u0435\u0447 low poly"
       objectReference: {fileID: 0}
+    - target: {fileID: 3686460205931560436, guid: 5789b9de086fedb41abb1821b43623f9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6a29ce5f1bc9d6d4ea1ca9f911fd6fd8, type: 2}
     - target: {fileID: 6506579765895713672, guid: 5789b9de086fedb41abb1821b43623f9, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerMovement : MonoBehaviour
 {
+    public UnityAction Jump;
+    public UnityAction WASDchanged;
+
     [Header("Основные настройки")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
@@ -77,14 +81,18 @@ public class PlayerMovement : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
+
+        WASDchanged?.Invoke();
     }
 
     private void HandleJumping()
     {
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // сбрасываем Y, чтобы прыжок был стабильным
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // сбрасываем Y, чтобы прыжок был стабильным
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+
+            Jump?.Invoke();
         }
     }
 

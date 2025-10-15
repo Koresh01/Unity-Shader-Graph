@@ -22,10 +22,16 @@ public class PlayerAnimatorController : MonoBehaviour
         hashForward = Animator.StringToHash("forward");
     }
 
-    private void Update()
+    void OnEnable()
     {
-        HandleWASD();
-        HandleJumping();
+        playerMovement.Jump += HandleJumping;
+        playerMovement.WASDchanged += HandleWASD;
+    }
+
+    void OnDisable()
+    {
+        playerMovement.Jump += HandleJumping;
+        playerMovement.WASDchanged -= HandleWASD;
     }
 
     void HandleWASD()
@@ -41,9 +47,6 @@ public class PlayerAnimatorController : MonoBehaviour
 
     void HandleJumping()
     {
-        if (playerMovement.isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("Jump");
-        }
+        animator.SetTrigger("Jump");
     }
 }

@@ -54,12 +54,12 @@ Material:
     - _Gradient_Noise_Scale: 18.5
     - _Noise_Power: 8
     - _Noise_Scale: 15
-    - _Noise_Speed: 0.2
+    - _Noise_Speed: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Noise_Color: {r: 0, g: 2.0611095, b: 4, a: 1}
+    - _Noise_Color: {r: 0, g: 8.244438, b: 16, a: 1}
     - _Noise_Direction: {r: 0, g: 1, b: 0, a: 0}
     - _Vector2: {r: 5, g: 5, b: 0, a: 0}
     - _Vector2_1: {r: -10.31, g: 1, b: 0, a: 0}

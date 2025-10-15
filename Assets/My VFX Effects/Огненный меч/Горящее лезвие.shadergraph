@@ -621,7 +621,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "071fc4ca6fbc49d89259f98c2ad517a5",
     "m_Id": 0,
-    "m_DisplayName": "Gradient Noise Power",
+    "m_DisplayName": "Noise Power",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -997,6 +997,9 @@
         },
         {
             "m_Id": "33de0504c1f0442dbdd5b5f156c80472"
+        },
+        {
+            "m_Id": "15e36a096476422fbb1a915f912e46af"
         }
     ]
 }
@@ -1567,9 +1570,6 @@
     "m_ChildObjectList": [
         {
             "m_Id": "58d3b49e727b44f798a33a71b486db8f"
-        },
-        {
-            "m_Id": "15e36a096476422fbb1a915f912e46af"
         }
     ]
 }
@@ -2533,8 +2533,8 @@
     "m_ObjectId": "7f72c6edaba344f9bf59a81262966e42",
     "m_Title": "PBR setup",
     "m_Position": {
-        "x": -1095.999755859375,
-        "y": 440.0001525878906
+        "x": -1096.0,
+        "y": 440.0
     }
 }
 
@@ -2714,7 +2714,7 @@
     "m_Title": "Effect",
     "m_Position": {
         "x": -2085.0,
-        "y": -457.0
+        "y": -456.9999694824219
     }
 }
 

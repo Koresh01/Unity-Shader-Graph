@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Android.Gradle.Manifest;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -22,7 +23,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Параметры перемещения:")]
     [SerializeField] float moveSpeed = 1f;
-    
+
+    [Header("Сила гравитации:")]
+    [SerializeField] float gravity = 9.8f;
+
     Vector3 _moveDirection;
     Vector2 _mouseDelta;
 
@@ -77,6 +81,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        HandleGravity();
+
         // Игрок
         ApplyMovement();
         ApplyRotation();
@@ -97,15 +103,19 @@ public class PlayerMovement : MonoBehaviour
         cameraForward.y = 0;
         cameraRight.y = 0;
 
-        // Создаем глобальное направление движения
-        Vector3 globalDirection = (cameraForward * _moveDirection.z) + (cameraRight * _moveDirection.x);
+        // Создаем глобальное направление движения (только горизонтальное)
+        Vector3 horizontalMovement = (cameraRight * _moveDirection.x) + (cameraForward * _moveDirection.z);
 
         // Нормализуем чтобы диагональное движение не было быстрее
-        if (globalDirection.magnitude > 1f)
-            globalDirection.Normalize();
+        if (horizontalMovement.magnitude > 1f)
+            horizontalMovement.Normalize();
 
-        _characterController.Move(globalDirection * moveSpeed * Time.deltaTime);
-        WASDchanged?.Invoke(globalDirection);
+        // Создаем полный вектор движения: горизонтальное + вертикальное (гравитация)
+        Vector3 totalMovement = (horizontalMovement * moveSpeed * Time.deltaTime) +
+                               (Vector3.up * _moveDirection.y * Time.deltaTime);
+
+        _characterController.Move(totalMovement);
+        WASDchanged?.Invoke(horizontalMovement);
     }
 
     /// <summary>
@@ -146,5 +156,23 @@ public class PlayerMovement : MonoBehaviour
         // Плавное перемещение
         _camera.transform.position = Vector3.Lerp(_camera.transform.position, targetPosition, smoothSpeed * Time.deltaTime);
         _camera.transform.LookAt(head.position);
+    }
+
+
+    /// <summary>
+    /// Обработка гравитации.
+    /// </summary>
+    void HandleGravity()
+    {
+        if (_characterController.isGrounded)
+        {
+            _moveDirection.y = -0.5f;
+        }
+        else
+        {
+            // Используем отрицательное значение гравитации
+            _moveDirection.y -= gravity * Time.deltaTime;
+            _moveDirection.y = Mathf.Max(_moveDirection.y, -gravity * 2f);
+        }
     }
 }

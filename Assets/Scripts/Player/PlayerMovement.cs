@@ -1,107 +1,54 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public UnityAction Jump;
-    public UnityAction WASDchanged;
+    CharacterController _characterController;
+    PlayerInput _playerInput;
 
-    [Header("Основные настройки")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 10f;
-    
-    [SerializeField] private Transform cameraTransform;
+    [Header("Параметры перемещения:")]
+    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] Vector3 _currentMovement;
 
-    [Header("Прыжок")]
-    [SerializeField] private float jumpForce = 5f;
-    public bool isGrounded;
-
-    private Rigidbody rb;
-    private CapsuleCollider capsule;
-    private Vector3 moveDirection;
+    [Header("Параметры камеры:")]
+    [SerializeField] float verticalAngle;
+    [SerializeField] float horizontalAngle;
+    [SerializeField] float distance;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        capsule = GetComponent<CapsuleCollider>();
-
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        _characterController = GetComponent<CharacterController>();
+        _playerInput = new PlayerInput();
     }
 
-    private void Update()   // чуткое ослеживание нажатия пробела
+    private void OnEnable()
     {
-        CheckGround();
-        HandleJumping();
+        _playerInput.Enable();
+        _playerInput.CharacterControls.Move.performed += HandleWASD;
+        _playerInput.CharacterControls.Move.canceled += HandleWASD;
     }
 
-    private void FixedUpdate()  // применения силы
+    private void OnDisable()
     {
-        HandleMovement();   
+        _playerInput.Disable();
+        _playerInput.CharacterControls.Move.performed -= HandleWASD;
+        _playerInput.CharacterControls.Move.canceled -= HandleWASD;
     }
 
-    private void CheckGround()
+    void HandleWASD(InputAction.CallbackContext context)
     {
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
-        float rayLength = capsule.bounds.extents.y + 0.2f;
-        isGrounded = Physics.Raycast(origin, Vector3.down, rayLength);
+        Vector2 input = context.ReadValue<Vector2>();
+        _currentMovement = new Vector3(input.x, 0, input.y);
     }
 
-    private void HandleMovement()
+    private void Update()
     {
-        // if (!isGrounded) return;
-
-        if (cameraTransform == null)
-        {
-            Debug.LogWarning("Не назначена камера в PlayerMovement!");
-            return;
-        }
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
-
-        forward.y = 0f;
-        right.y = 0f;
-        forward.Normalize();
-        right.Normalize();
-
-        moveDirection = (forward * vertical + right * horizontal).normalized;
-
-        // Двигаем Rigidbody
-        Vector3 targetPosition = rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(targetPosition);
-
-        // Поворачиваем только если есть движение
-        if (moveDirection.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-        }
-
-        WASDchanged?.Invoke();
+        ApplyMovement();
     }
 
-    private void HandleJumping()
+    void ApplyMovement()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // сбрасываем Y, чтобы прыжок был стабильным
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
-
-            Jump?.Invoke();
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (capsule == null) return;
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
-        float rayLength = capsule.bounds.extents.y + 0.2f;
-        Gizmos.DrawLine(origin, origin + Vector3.down * rayLength);
+        _characterController.Move(_currentMovement * moveSpeed * Time.deltaTime);
     }
 }

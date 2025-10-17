@@ -10,7 +10,7 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeField] private float dampTime = 0.1f; // Плавность переходов анимации
 
     private Animator animator;
-    private int hashHorizontal;
+    private int hasVelocity;
     private int hashForward;
 
     private void Awake()
@@ -18,31 +18,25 @@ public class PlayerAnimatorController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         // Кэшируем хэши параметров — это ускоряет работу
-        hashHorizontal = Animator.StringToHash("horizontal");
-        hashForward = Animator.StringToHash("forward");
+        hasVelocity = Animator.StringToHash("velocity");
     }
 
     void OnEnable()
     {
         //playerMovement.Jump += HandleJumping;
-       // playerMovement.WASDchanged += HandleWASD;
+        playerMovement.WASDchanged += HandleWASD;
     }
 
     void OnDisable()
     {
        // playerMovement.Jump += HandleJumping;
-       // playerMovement.WASDchanged -= HandleWASD;
+        playerMovement.WASDchanged -= HandleWASD;
     }
 
-    void HandleWASD()
+    void HandleWASD(Vector3 moveDirection)
     {
-        // Получаем ввод от пользователя (старая система)
-        float horizontal = Input.GetAxis("Horizontal"); // A/D или стрелки ← →
-        float forward = Input.GetAxis("Vertical");       // W/S или стрелки ↑ ↓
-
         // Плавно изменяем параметры аниматора
-        animator.SetFloat(hashHorizontal, horizontal, dampTime, Time.deltaTime);
-        animator.SetFloat(hashForward, forward, dampTime, Time.deltaTime);
+        animator.SetFloat(hasVelocity, moveDirection.magnitude, dampTime, Time.deltaTime);
     }
 
     void HandleJumping()

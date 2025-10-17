@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -7,14 +9,22 @@ public class PlayerMovement : MonoBehaviour
     CharacterController _characterController;
     PlayerInput _playerInput;
 
+    public UnityAction<Vector3> WASDchanged;
+
+    [Header("Камера:")]
+    [SerializeField] Camera _camera;
+    [SerializeField] Transform head;  // Цель куда смотрит камера(голова игрока).
+    [SerializeField] float horizontalAngle = 0f;       // Горизонтальный угол относительно персонажа
+    [SerializeField] float verticalAngle = 20f;    // Вертикальный угол (вверх/вниз)
+    [SerializeField] float distance = 5f;  // Текущее расстояние до игрока
+
+    [SerializeField] float smoothSpeed = 5f;
+
     [Header("Параметры перемещения:")]
     [SerializeField] float moveSpeed = 1f;
-    [SerializeField] Vector3 _currentMovement;
-
-    [Header("Параметры камеры:")]
-    [SerializeField] float verticalAngle;
-    [SerializeField] float horizontalAngle;
-    [SerializeField] float distance;
+    
+    Vector3 _moveDirection;
+    Vector2 _mouseDelta;
 
     private void Awake()
     {
@@ -27,28 +37,114 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.Enable();
         _playerInput.CharacterControls.Move.performed += HandleWASD;
         _playerInput.CharacterControls.Move.canceled += HandleWASD;
+
+        _playerInput.CharacterControls.Look.performed += HandleLook;
+        _playerInput.CharacterControls.Look.canceled += HandleLook;
+
+        // ВЫКЛЮЧАЕМ КУРСОР при включении
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnDisable()
     {
         _playerInput.Disable();
+        
         _playerInput.CharacterControls.Move.performed -= HandleWASD;
         _playerInput.CharacterControls.Move.canceled -= HandleWASD;
+
+        _playerInput.CharacterControls.Look.performed -= HandleLook;
+        _playerInput.CharacterControls.Look.canceled -= HandleLook;
+
+        // ВЫКЛЮЧАЕМ КУРСОР при включении
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
     }
 
     void HandleWASD(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        _currentMovement = new Vector3(input.x, 0, input.y);
+        _moveDirection.x = input.x;
+        _moveDirection.z = input.y;
+    }
+
+    void HandleLook(InputAction.CallbackContext context)
+    {
+        _mouseDelta = context.ReadValue<Vector2>();
+        horizontalAngle += _mouseDelta.x * 0.05f;
+        verticalAngle -= _mouseDelta.y * 0.05f;
     }
 
     private void Update()
     {
+        // Игрок
         ApplyMovement();
+        ApplyRotation();
+
+        // Камера
+        UpdateCameraPosition();
     }
 
+    /// <summary>
+    /// Перемещение персонажа относительно вида камеры.
+    /// </summary>
     void ApplyMovement()
     {
-        _characterController.Move(_currentMovement * moveSpeed * Time.deltaTime);
+        // Преобразуем локальное направление в глобальное относительно камеры
+        Vector3 cameraForward = _camera.transform.forward;
+        Vector3 cameraRight = _camera.transform.right;
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        // Создаем глобальное направление движения
+        Vector3 globalDirection = (cameraForward * _moveDirection.z) + (cameraRight * _moveDirection.x);
+
+        // Нормализуем чтобы диагональное движение не было быстрее
+        if (globalDirection.magnitude > 1f)
+            globalDirection.Normalize();
+
+        _characterController.Move(globalDirection * moveSpeed * Time.deltaTime);
+        WASDchanged?.Invoke(globalDirection);
+    }
+
+    /// <summary>
+    /// Вращение персонажа в сторону направления его движения.
+    /// </summary>
+    void ApplyRotation()
+    {
+        // Преобразуем локальное направление в глобальное относительно камеры
+        Vector3 cameraForward = _camera.transform.forward;
+        Vector3 cameraRight = _camera.transform.right;
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        // Создаем глобальное направление движения
+        Vector3 positionToLookAt = (cameraForward * _moveDirection.z) + (cameraRight * _moveDirection.x);
+
+        Quaternion currentRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
+
+        transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, smoothSpeed * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Вращение камеры от 3 лица.
+    /// </summary>
+    void UpdateCameraPosition()
+    {
+        verticalAngle = Mathf.Clamp(verticalAngle, -60f, 60f);
+
+        // Вычисляем позицию камеры на сфере вокруг игрока
+        Quaternion rotation = Quaternion.Euler(verticalAngle, horizontalAngle, 0);
+        Vector3 offset = rotation * new Vector3(0,0,-distance);
+
+        // Устанавливаем позицию и направление
+        Vector3 targetPosition = head.position + offset;
+
+        // Плавное перемещение
+        _camera.transform.position = Vector3.Lerp(_camera.transform.position, targetPosition, smoothSpeed * Time.deltaTime);
+        _camera.transform.LookAt(head.position);
     }
 }

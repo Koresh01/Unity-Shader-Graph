@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float verticalAngle = 20f;    // Вертикальный угол (вверх/вниз)
     [SerializeField] float distance = 5f;  // Текущее расстояние до игрока
 
+    [Tooltip("Скорость поворота персонажа к заданной точке.")]
     [SerializeField] float smoothSpeed = 5f;
 
     [Header("Параметры перемещения:")]
@@ -125,6 +126,8 @@ public class PlayerMovement : MonoBehaviour
         if (isRunPressed)
             horizontalMovement *= runSpeedMultiplier;
 
+
+
         // Создаем полный вектор движения: горизонтальное + вертикальное (гравитация)
         Vector3 totalMovement = (horizontalMovement * walkSpeed * Time.deltaTime) +
                                (Vector3.up * _moveDirection.y * Time.deltaTime);
@@ -133,7 +136,11 @@ public class PlayerMovement : MonoBehaviour
 
 
         _characterController.Move(totalMovement);
-        WASDchanged?.Invoke(horizontalMovement);
+
+
+
+        float animationSpeed = isRunPressed ? 1 : 0.5f; // 0.5f - ходьба 1.0f - бег
+        WASDchanged?.Invoke(horizontalMovement.normalized * animationSpeed);
     }
 
     /// <summary>

@@ -3539,8 +3539,12 @@ MonoBehaviour:
   verticalAngle: 20
   distance: 4
   smoothSpeed: 10
-  moveSpeed: 1.5
+  walkSpeed: 1.5
+  runSpeedMultiplier: 2
+  isRunPressed: 0
   gravity: 9.8
+  _moveDirection: {x: 0, y: 0, z: 0}
+  _mouseDelta: {x: 0, y: 0}
 --- !u!143 &1767614581
 CharacterController:
   m_ObjectHideFlags: 0

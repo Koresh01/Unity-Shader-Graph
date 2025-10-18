@@ -22,13 +22,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float smoothSpeed = 5f;
 
     [Header("Параметры перемещения:")]
-    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] float walkSpeed = 1.5f;
+    [SerializeField, Range(1f, 3f)] float runSpeedMultiplier = 2f;
+
+    public bool isRunPressed;
 
     [Header("Сила гравитации:")]
     [SerializeField] float gravity = 9.8f;
 
-    Vector3 _moveDirection;
-    Vector2 _mouseDelta;
+    [Header("Ссчитываем от пользователя:")]
+    [SerializeField] Vector3 _moveDirection;
+    [SerializeField] Vector2 _mouseDelta;
 
     private void Awake()
     {
@@ -45,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.CharacterControls.Look.performed += HandleLook;
         _playerInput.CharacterControls.Look.canceled += HandleLook;
 
+        _playerInput.CharacterControls.Run.started += HandleRun;
+        _playerInput.CharacterControls.Run.canceled += HandleRun;
+
         // ВЫКЛЮЧАЕМ КУРСОР при включении
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -59,6 +66,9 @@ public class PlayerMovement : MonoBehaviour
 
         _playerInput.CharacterControls.Look.performed -= HandleLook;
         _playerInput.CharacterControls.Look.canceled -= HandleLook;
+
+        _playerInput.CharacterControls.Run.started  -= HandleRun;
+        _playerInput.CharacterControls.Run.canceled -= HandleRun;
 
         // ВЫКЛЮЧАЕМ КУРСОР при включении
         Cursor.lockState = CursorLockMode.Locked;
@@ -75,8 +85,13 @@ public class PlayerMovement : MonoBehaviour
     void HandleLook(InputAction.CallbackContext context)
     {
         _mouseDelta = context.ReadValue<Vector2>();
-        horizontalAngle += _mouseDelta.x * 0.05f;
-        verticalAngle -= _mouseDelta.y * 0.05f;
+        horizontalAngle += _mouseDelta.x;
+        verticalAngle -= _mouseDelta.y;
+    }
+
+    void HandleRun(InputAction.CallbackContext context)
+    {
+        isRunPressed = context.ReadValueAsButton();
     }
 
     private void Update()
@@ -105,14 +120,17 @@ public class PlayerMovement : MonoBehaviour
 
         // Создаем глобальное направление движения (только горизонтальное)
         Vector3 horizontalMovement = (cameraRight * _moveDirection.x) + (cameraForward * _moveDirection.z);
-
-        // Нормализуем чтобы диагональное движение не было быстрее
-        if (horizontalMovement.magnitude > 1f)
-            horizontalMovement.Normalize();
+        
+        // Если зажат shift, то бежим
+        if (isRunPressed)
+            horizontalMovement *= runSpeedMultiplier;
 
         // Создаем полный вектор движения: горизонтальное + вертикальное (гравитация)
-        Vector3 totalMovement = (horizontalMovement * moveSpeed * Time.deltaTime) +
+        Vector3 totalMovement = (horizontalMovement * walkSpeed * Time.deltaTime) +
                                (Vector3.up * _moveDirection.y * Time.deltaTime);
+
+
+
 
         _characterController.Move(totalMovement);
         WASDchanged?.Invoke(horizontalMovement);
@@ -123,6 +141,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void ApplyRotation()
     {
+        if (_moveDirection.magnitude < 0.3f) return;
+
         // Преобразуем локальное направление в глобальное относительно камеры
         Vector3 cameraForward = _camera.transform.forward;
         Vector3 cameraRight = _camera.transform.right;
@@ -133,9 +153,12 @@ public class PlayerMovement : MonoBehaviour
         // Создаем глобальное направление движения
         Vector3 positionToLookAt = (cameraForward * _moveDirection.z) + (cameraRight * _moveDirection.x);
 
+        if (positionToLookAt == Vector3.zero) return;   // Если пользователь не жмёт WASD, то вращать не нужно.
+
         Quaternion currentRotation = transform.rotation;
         Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
 
+        
         transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, smoothSpeed * Time.deltaTime);
     }
 
@@ -172,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Используем отрицательное значение гравитации
             _moveDirection.y -= gravity * Time.deltaTime;
-            _moveDirection.y = Mathf.Max(_moveDirection.y, -gravity * 2f);
+            _moveDirection.y = Mathf.Max(_moveDirection.y, -gravity * 2f);  // Ограничим максимальную скорость падения.
         }
     }
 }

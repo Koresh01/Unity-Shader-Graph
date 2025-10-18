@@ -23,13 +23,13 @@ public class PlayerAnimatorController : MonoBehaviour
 
     void OnEnable()
     {
-        //playerMovement.Jump += HandleJumping;
+        playerMovement.Jump += HandleJumping;
         playerMovement.WASDchanged += HandleWASD;
     }
 
     void OnDisable()
     {
-       // playerMovement.Jump += HandleJumping;
+        playerMovement.Jump += HandleJumping;
         playerMovement.WASDchanged -= HandleWASD;
     }
 

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     CharacterController _characterController;
     PlayerInput _playerInput;
 
+    public UnityAction Jump;
     public UnityAction<Vector3> WASDchanged;
 
     [Header("Камера:")]
@@ -25,8 +26,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Параметры перемещения:")]
     [SerializeField] float walkSpeed = 1.5f;
     [SerializeField, Range(1f, 3f)] float runSpeedMultiplier = 2f;
+    [SerializeField] float jumpForce = 30f;
 
-    public bool isRunPressed;
+    [SerializeField] bool isRunPressed;
+    [SerializeField] bool isJumpPressed;
+
 
     [Header("Сила гравитации:")]
     [SerializeField] float gravity = 9.8f;
@@ -53,6 +57,9 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.CharacterControls.Run.started += HandleRun;
         _playerInput.CharacterControls.Run.canceled += HandleRun;
 
+        _playerInput.CharacterControls.Jump.started += HandleJump;
+        _playerInput.CharacterControls.Jump.canceled += HandleJump;
+
         // ВЫКЛЮЧАЕМ КУРСОР при включении
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -70,6 +77,9 @@ public class PlayerMovement : MonoBehaviour
 
         _playerInput.CharacterControls.Run.started  -= HandleRun;
         _playerInput.CharacterControls.Run.canceled -= HandleRun;
+
+        _playerInput.CharacterControls.Jump.started -= HandleJump;
+        _playerInput.CharacterControls.Jump.canceled -= HandleJump;
 
         // ВЫКЛЮЧАЕМ КУРСОР при включении
         Cursor.lockState = CursorLockMode.Locked;
@@ -95,11 +105,23 @@ public class PlayerMovement : MonoBehaviour
         isRunPressed = context.ReadValueAsButton();
     }
 
+    void HandleJump(InputAction.CallbackContext context)
+    {
+        isJumpPressed = context.ReadValueAsButton();
+    }
+
+
+
+
+
+
+
     private void Update()
     {
         HandleGravity();
 
         // Игрок
+        ApplyJump();
         ApplyMovement();
         ApplyRotation();
 
@@ -188,6 +210,14 @@ public class PlayerMovement : MonoBehaviour
         _camera.transform.LookAt(head.position);
     }
 
+    void ApplyJump()
+    {
+        if (isJumpPressed && _characterController.isGrounded)
+        {
+            _moveDirection.y = jumpForce;
+            Jump?.Invoke();
+        }
+    }
 
     /// <summary>
     /// Обработка гравитации.

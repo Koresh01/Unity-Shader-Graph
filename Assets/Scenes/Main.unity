@@ -685,7 +685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15469009, y: -0.09174265, z: 0.014428409, w: 0.98358846}
+  m_LocalRotation: {x: 0.15469006, y: -0.09174265, z: 0.014428405, w: 0.98358846}
   m_LocalPosition: {x: -1.8273065, y: 2.2715716, z: -11.831831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3649,9 +3649,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 330585545}
   head: {fileID: 499522788}
-  horizontalAngle: 0
-  verticalAngle: 20
   distance: 4
+  mouseSens: 3
   smoothSpeed: 7
   walkSpeed: 1.5
   runSpeedMultiplier: 3

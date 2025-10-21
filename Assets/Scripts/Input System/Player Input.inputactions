@@ -6,7 +6,7 @@
             "id": "c4501fe6-9c30-4ba6-b04b-83055b7f8ae5",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "WASD",
                     "type": "Value",
                     "id": "df1434f6-2ee0-414c-b4da-1062b2dd0b40",
                     "expectedControlType": "Vector2",
@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
+                    "name": "LOOK",
                     "type": "Value",
                     "id": "220c7ca9-281f-4f04-be3b-87b0cf85bae6",
                     "expectedControlType": "Vector2",
@@ -50,7 +50,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "WASD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -61,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "WASD",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -72,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "WASD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -83,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "WASD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -94,7 +94,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "WASD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -105,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "WASD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -114,9 +114,9 @@
                     "id": "1f4bf9e3-7246-423b-93fe-68d15162de8e",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.05,y=0.05)",
+                    "processors": "ScaleVector2(x=0.5,y=0.5)",
                     "groups": "",
-                    "action": "Look",
+                    "action": "LOOK",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -125,9 +125,9 @@
                     "id": "91f6b0a3-e182-48ab-bdad-66ed41ad3411",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=2.2,y=2.2)",
+                    "processors": "ScaleVector2(x=30,y=30)",
                     "groups": "",
-                    "action": "Look",
+                    "action": "LOOK",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

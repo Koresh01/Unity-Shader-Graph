@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -14,14 +16,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Камера:")]
     [SerializeField] Camera _camera;
     [SerializeField] Transform head;  // Цель куда смотрит камера(голова игрока).
-    [SerializeField] float horizontalAngle = 0f;       // Горизонтальный угол относительно персонажа
-    [SerializeField] float verticalAngle = 20f;    // Вертикальный угол (вверх/вниз)
     [SerializeField] float distance = 5f;  // Текущее расстояние до игрока
-
-    [Tooltip("Скорость поворота персонажа к заданной точке.")]
-    [SerializeField] float smoothSpeed = 5f;
+    [SerializeField] float mouseSens = 1f;  // Чувствительность мыши/стика.
 
     [Header("Параметры перемещения:")]
+    [Tooltip("Скорость поворота персонажа к заданной точке.")]
+    [SerializeField] float smoothSpeed = 5f;
     [SerializeField] float walkSpeed = 1.5f;
     [SerializeField, Range(1f, 3f)] float runSpeedMultiplier = 2f;
     [SerializeField] float jumpForce = 30f;
@@ -46,11 +46,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         _playerInput.Enable();
-        _playerInput.CharacterControls.Move.performed += HandleWASD;
-        _playerInput.CharacterControls.Move.canceled += HandleWASD;
+        _playerInput.CharacterControls.WASD.performed += OnMove;
+        _playerInput.CharacterControls.WASD.canceled += ctx => _moveDirection = Vector2.zero;
+        _playerInput.CharacterControls.LOOK.performed += OnLook;
+        _playerInput.CharacterControls.LOOK.canceled += ctx => _mouseDelta = Vector2.zero;
 
-        _playerInput.CharacterControls.Look.performed += HandleLook;
-        _playerInput.CharacterControls.Look.canceled += HandleLook;
+
 
         _playerInput.CharacterControls.Run.started += HandleRun;
         _playerInput.CharacterControls.Run.canceled += HandleRun;
@@ -66,12 +67,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         _playerInput.Disable();
-        
-        _playerInput.CharacterControls.Move.performed -= HandleWASD;
-        _playerInput.CharacterControls.Move.canceled -= HandleWASD;
+        _playerInput.CharacterControls.WASD.performed -= OnMove;
+        _playerInput.CharacterControls.WASD.canceled -= ctx => _moveDirection = Vector2.zero;
+        _playerInput.CharacterControls.LOOK.performed -= OnLook;
+        _playerInput.CharacterControls.LOOK.canceled -= ctx => _mouseDelta = Vector2.zero;
 
-        _playerInput.CharacterControls.Look.performed -= HandleLook;
-        _playerInput.CharacterControls.Look.canceled -= HandleLook;
+
 
         _playerInput.CharacterControls.Run.started  -= HandleRun;
         _playerInput.CharacterControls.Run.canceled -= HandleRun;
@@ -84,18 +85,16 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void HandleWASD(InputAction.CallbackContext context)
+    void OnMove(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
         _moveDirection.x = input.x;
         _moveDirection.z = input.y;
     }
 
-    void HandleLook(InputAction.CallbackContext context)
+    void OnLook(InputAction.CallbackContext context)
     {
         _mouseDelta = context.ReadValue<Vector2>();
-        horizontalAngle += _mouseDelta.x;
-        verticalAngle -= _mouseDelta.y;
     }
 
     void HandleRun(InputAction.CallbackContext context)
@@ -194,18 +193,20 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void UpdateCameraPosition()
     {
-        verticalAngle = Mathf.Clamp(verticalAngle, -60f, 60f);
+        // Вращение камеры по орбите.
+        Vector3 dir = _camera.transform.position - head.transform.position;
+        dir = dir.normalized;
 
-        // Вычисляем позицию камеры на сфере вокруг игрока
-        Quaternion rotation = Quaternion.Euler(verticalAngle, horizontalAngle, 0);
-        Vector3 offset = rotation * new Vector3(0,0,-distance);
 
-        // Устанавливаем позицию и направление
-        Vector3 targetPosition = head.position + offset;
+        Quaternion corRot = Quaternion.Euler(
+            -_mouseDelta.y * mouseSens*Time.deltaTime,
+            _mouseDelta.x * mouseSens * Time.deltaTime,
+            0
+        );
+        Vector3 newDir = corRot * dir;
 
-        // Плавное перемещение
-        _camera.transform.position = Vector3.Lerp(_camera.transform.position, targetPosition, smoothSpeed * Time.deltaTime);
-        _camera.transform.LookAt(head.position);
+        _camera.transform.position = head.transform.position + newDir*distance;
+        _camera.transform.rotation = Quaternion.LookRotation(-newDir);
     }
 
     void ApplyJump()

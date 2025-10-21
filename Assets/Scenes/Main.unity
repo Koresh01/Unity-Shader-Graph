@@ -3647,10 +3647,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd833db730f899948b2c215e15c118dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 330585545}
+  camTransform: {fileID: 330585546}
   head: {fileID: 499522788}
   distance: 2
-  mouseSens: 3
+  mouseSens: 0.1
   smoothSpeed: 7
   walkSpeed: 1.5
   runSpeedMultiplier: 3

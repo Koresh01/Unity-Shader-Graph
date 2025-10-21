@@ -1,8 +1,8 @@
-﻿using Unity.VisualScripting;
+﻿using System.Drawing;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
+
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public UnityAction<Vector3> WASDchanged;
 
     [Header("Камера:")]
-    [SerializeField] Camera _camera;
+    [SerializeField] Transform camTransform;
     [SerializeField] Transform head;  // Цель куда смотрит камера(голова игрока).
     [SerializeField] float distance = 5f;  // Текущее расстояние до игрока
     [SerializeField] float mouseSens = 1f;  // Чувствительность мыши/стика.
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         _playerInput = new PlayerInput();
 
         // Запоминаем направление взгляда камеры на шею игрока.
-        dir = _camera.transform.position - head.transform.position;
+        dir = camTransform.transform.position - head.transform.position;
     }
 
     private void OnEnable()
@@ -136,8 +136,8 @@ public class PlayerMovement : MonoBehaviour
     void ApplyMovement()
     {
         // Преобразуем локальное направление в глобальное относительно камеры
-        Vector3 cameraForward = _camera.transform.forward;
-        Vector3 cameraRight = _camera.transform.right;
+        Vector3 cameraForward = camTransform.transform.forward;
+        Vector3 cameraRight = camTransform.transform.right;
 
         cameraForward.y = 0;
         cameraRight.y = 0;
@@ -174,8 +174,8 @@ public class PlayerMovement : MonoBehaviour
         if (_moveDirection.magnitude < 0.3f) return;
 
         // Преобразуем локальное направление в глобальное относительно камеры
-        Vector3 cameraForward = _camera.transform.forward;
-        Vector3 cameraRight = _camera.transform.right;
+        Vector3 cameraForward = camTransform.transform.forward;
+        Vector3 cameraRight = camTransform.transform.right;
 
         cameraForward.y = 0;
         cameraRight.y = 0;
@@ -230,18 +230,20 @@ public class PlayerMovement : MonoBehaviour
         dir = dir.normalized;
 
 
-        Quaternion corRot = Quaternion.Euler(
-            -_mouseDelta.y * mouseSens * Time.deltaTime,
-            _mouseDelta.x * mouseSens * Time.deltaTime,
-            0
-        );
-        Vector3 newDir = corRot * dir;
+        Debug.DrawRay(head.position, head.up, UnityEngine.Color.green, 0.1f);
+        Debug.DrawRay(head.position, camTransform.right, UnityEngine.Color.red, 0.1f);
 
-        _camera.transform.position = head.transform.position + newDir * distance;
-        _camera.transform.rotation = Quaternion.LookRotation(-newDir);
+        Quaternion horRot = Quaternion.AxisAngle(head.up, _mouseDelta.x * mouseSens * Time.deltaTime);
+        Quaternion vertRot = Quaternion.AxisAngle(camTransform.right, -_mouseDelta.y * mouseSens * Time.deltaTime);
+        Quaternion corrRot = horRot * vertRot;
+
+
+        Vector3 newDir = corrRot * dir;
+
+        camTransform.position = head.transform.position + newDir * distance;
+        camTransform.rotation = Quaternion.LookRotation(-newDir);
 
         dir = newDir;
     }
-    
     #endregion
 }

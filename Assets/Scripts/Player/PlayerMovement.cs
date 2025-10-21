@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform head;  // Цель куда смотрит камера(голова игрока).
     [SerializeField] float distance = 5f;  // Текущее расстояние до игрока
     [SerializeField] float mouseSens = 1f;  // Чувствительность мыши/стика.
+    Vector3 dir;
 
     [Header("Параметры перемещения:")]
     [Tooltip("Скорость поворота персонажа к заданной точке.")]
@@ -41,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _playerInput = new PlayerInput();
+
+        // Запоминаем направление взгляда камеры на шею игрока.
+        dir = _camera.transform.position - head.transform.position;
     }
 
     private void OnEnable()
@@ -188,27 +192,6 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, smoothSpeed * Time.deltaTime);
     }
 
-    /// <summary>
-    /// Вращение камеры от 3 лица.
-    /// </summary>
-    void UpdateCameraPosition()
-    {
-        // Вращение камеры по орбите.
-        Vector3 dir = _camera.transform.position - head.transform.position;
-        dir = dir.normalized;
-
-
-        Quaternion corRot = Quaternion.Euler(
-            -_mouseDelta.y * mouseSens*Time.deltaTime,
-            _mouseDelta.x * mouseSens * Time.deltaTime,
-            0
-        );
-        Vector3 newDir = corRot * dir;
-
-        _camera.transform.position = head.transform.position + newDir*distance;
-        _camera.transform.rotation = Quaternion.LookRotation(-newDir);
-    }
-
     void ApplyJump()
     {
         if (isJumpPressed && _characterController.isGrounded)
@@ -234,4 +217,31 @@ public class PlayerMovement : MonoBehaviour
             _moveDirection.y = Mathf.Max(_moveDirection.y, -gravity * 2f);  // Ограничим максимальную скорость падения.
         }
     }
+
+
+    #region Camera
+
+    /// <summary>
+    /// Вращение камеры от 3 лица.
+    /// </summary>
+    void UpdateCameraPosition()
+    {
+        // Вращение камеры по орбите.
+        dir = dir.normalized;
+
+
+        Quaternion corRot = Quaternion.Euler(
+            -_mouseDelta.y * mouseSens * Time.deltaTime,
+            _mouseDelta.x * mouseSens * Time.deltaTime,
+            0
+        );
+        Vector3 newDir = corRot * dir;
+
+        _camera.transform.position = head.transform.position + newDir * distance;
+        _camera.transform.rotation = Quaternion.LookRotation(-newDir);
+
+        dir = newDir;
+    }
+    
+    #endregion
 }

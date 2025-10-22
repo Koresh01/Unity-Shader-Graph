@@ -31,8 +31,8 @@ public class ExplosionController : MonoBehaviour
         // Создаем взрыв в позиции этого объекта
         VisualEffect explosion = Instantiate(explosionVFXPrefab, transform.position, Quaternion.identity);
 
-        // Запускаем и уничтожаем через 2 секунды
+        // Запускаем и уничтожаем через 5 секунд
         explosion.Play();
-        Destroy(explosion.gameObject, 2f);
+        Destroy(explosion.gameObject, 5f);
     }
 }

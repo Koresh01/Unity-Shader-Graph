@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5500711308431605480}
   - component: {fileID: 2944168537100113465}
   m_Layer: 0
-  m_Name: "\u0412\u0437\u0440\u044B\u0432 VFX prefab"
+  m_Name: Simple explosion VFX prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

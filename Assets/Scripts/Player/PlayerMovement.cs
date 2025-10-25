@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Скорость поворота персонажа к заданной точке.")]
     [SerializeField] float smoothSpeed = 5f;
     [SerializeField] float walkSpeed = 1.5f;
-    [SerializeField, Range(1f, 3f)] float runSpeedMultiplier = 2f;
+    [SerializeField, Range(1f, 6f)] float runSpeedMultiplier = 2f;
     [SerializeField] float jumpForce = 30f;
 
     [SerializeField] bool isRunPressed;

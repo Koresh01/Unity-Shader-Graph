@@ -46,7 +46,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Run"",
+                    ""name"": ""IsRunning"",
                     ""type"": ""Button"",
                     ""id"": ""9463496f-7c8b-4d80-8418-40321a573313"",
                     ""expectedControlType"": """",
@@ -58,6 +58,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""f527658c-d6d9-482d-99f6-c2b980586367"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""IsCrouching"",
+                    ""type"": ""Button"",
+                    ""id"": ""e9f7e8cb-68e3-4830-95e0-4eab0aca09a9"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -160,7 +169,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Run"",
+                    ""action"": ""IsRunning"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -171,7 +180,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Run"",
+                    ""action"": ""IsRunning"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -196,6 +205,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbc1bfc1-6c9b-403a-86d5-fae75897c858"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""IsCrouching"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,8 +226,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_CharacterControls = asset.FindActionMap("CharacterControls", throwIfNotFound: true);
         m_CharacterControls_WASD = m_CharacterControls.FindAction("WASD", throwIfNotFound: true);
         m_CharacterControls_LOOK = m_CharacterControls.FindAction("LOOK", throwIfNotFound: true);
-        m_CharacterControls_Run = m_CharacterControls.FindAction("Run", throwIfNotFound: true);
+        m_CharacterControls_IsRunning = m_CharacterControls.FindAction("IsRunning", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
+        m_CharacterControls_IsCrouching = m_CharacterControls.FindAction("IsCrouching", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -276,16 +297,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<ICharacterControlsActions> m_CharacterControlsActionsCallbackInterfaces = new List<ICharacterControlsActions>();
     private readonly InputAction m_CharacterControls_WASD;
     private readonly InputAction m_CharacterControls_LOOK;
-    private readonly InputAction m_CharacterControls_Run;
+    private readonly InputAction m_CharacterControls_IsRunning;
     private readonly InputAction m_CharacterControls_Jump;
+    private readonly InputAction m_CharacterControls_IsCrouching;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
         public CharacterControlsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @WASD => m_Wrapper.m_CharacterControls_WASD;
         public InputAction @LOOK => m_Wrapper.m_CharacterControls_LOOK;
-        public InputAction @Run => m_Wrapper.m_CharacterControls_Run;
+        public InputAction @IsRunning => m_Wrapper.m_CharacterControls_IsRunning;
         public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
+        public InputAction @IsCrouching => m_Wrapper.m_CharacterControls_IsCrouching;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,12 +324,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @LOOK.started += instance.OnLOOK;
             @LOOK.performed += instance.OnLOOK;
             @LOOK.canceled += instance.OnLOOK;
-            @Run.started += instance.OnRun;
-            @Run.performed += instance.OnRun;
-            @Run.canceled += instance.OnRun;
+            @IsRunning.started += instance.OnIsRunning;
+            @IsRunning.performed += instance.OnIsRunning;
+            @IsRunning.canceled += instance.OnIsRunning;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @IsCrouching.started += instance.OnIsCrouching;
+            @IsCrouching.performed += instance.OnIsCrouching;
+            @IsCrouching.canceled += instance.OnIsCrouching;
         }
 
         private void UnregisterCallbacks(ICharacterControlsActions instance)
@@ -317,12 +343,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @LOOK.started -= instance.OnLOOK;
             @LOOK.performed -= instance.OnLOOK;
             @LOOK.canceled -= instance.OnLOOK;
-            @Run.started -= instance.OnRun;
-            @Run.performed -= instance.OnRun;
-            @Run.canceled -= instance.OnRun;
+            @IsRunning.started -= instance.OnIsRunning;
+            @IsRunning.performed -= instance.OnIsRunning;
+            @IsRunning.canceled -= instance.OnIsRunning;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @IsCrouching.started -= instance.OnIsCrouching;
+            @IsCrouching.performed -= instance.OnIsCrouching;
+            @IsCrouching.canceled -= instance.OnIsCrouching;
         }
 
         public void RemoveCallbacks(ICharacterControlsActions instance)
@@ -344,7 +373,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnWASD(InputAction.CallbackContext context);
         void OnLOOK(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
+        void OnIsRunning(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnIsCrouching(InputAction.CallbackContext context);
     }
 }

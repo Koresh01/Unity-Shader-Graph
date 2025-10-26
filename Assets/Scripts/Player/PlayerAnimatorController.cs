@@ -10,15 +10,18 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeField] private float dampTime = 0.1f; // Плавность переходов анимации
 
     private Animator animator;
-    private int hasVelocity;
-    private int hashForward;
+    private int hash_Velocity;
+    private int hash_IsRunning;
+    private int hash_IsCrouching;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
 
         // Кэшируем хэши параметров — это ускоряет работу
-        hasVelocity = Animator.StringToHash("velocity");
+        hash_Velocity = Animator.StringToHash("velocity");
+        hash_IsRunning = Animator.StringToHash("IsRunning");
+        hash_IsCrouching = Animator.StringToHash("IsCrouching");
     }
 
     void OnEnable()
@@ -35,8 +38,11 @@ public class PlayerAnimatorController : MonoBehaviour
 
     void HandleWASD(Vector3 moveDirection)
     {
+        animator.SetBool(hash_IsRunning, playerMovement.isRunPressed);
+        animator.SetBool(hash_IsCrouching, playerMovement.isCrouchPressed);
+
         // Плавно изменяем параметры аниматора
-        animator.SetFloat(hasVelocity, moveDirection.magnitude, dampTime, Time.deltaTime);
+        animator.SetFloat(hash_Velocity, moveDirection.magnitude, dampTime, Time.deltaTime);
     }
 
     void HandleJumping()

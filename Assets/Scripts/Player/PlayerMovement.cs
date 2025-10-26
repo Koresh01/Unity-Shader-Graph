@@ -27,8 +27,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(1f, 6f)] float runSpeedMultiplier = 2f;
     [SerializeField] float jumpForce = 30f;
 
-    [SerializeField] bool isRunPressed;
-    [SerializeField] bool isJumpPressed;
+    public bool isRunPressed;
+    public bool isCrouchPressed;
+    public bool isJumpPressed;
 
 
     [Header("Сила гравитации:")]
@@ -57,10 +58,13 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        _playerInput.CharacterControls.Run.started += HandleRun;
-        _playerInput.CharacterControls.Run.canceled += HandleRun;
+        _playerInput.CharacterControls.IsRunning.started  += HandleRun;
+        _playerInput.CharacterControls.IsRunning.canceled += HandleRun;
 
-        _playerInput.CharacterControls.Jump.started += HandleJump;
+        _playerInput.CharacterControls.IsCrouching.started  += HandleCrouch;
+        _playerInput.CharacterControls.IsCrouching.canceled += HandleCrouch;
+
+        _playerInput.CharacterControls.Jump.started  += HandleJump;
         _playerInput.CharacterControls.Jump.canceled += HandleJump;
 
         // ВЫКЛЮЧАЕМ КУРСОР при включении
@@ -78,8 +82,12 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        _playerInput.CharacterControls.Run.started  -= HandleRun;
-        _playerInput.CharacterControls.Run.canceled -= HandleRun;
+        _playerInput.CharacterControls.IsRunning.started  -= HandleRun;
+        _playerInput.CharacterControls.IsRunning.canceled -= HandleRun;
+
+
+        _playerInput.CharacterControls.IsCrouching.started  -= HandleCrouch;
+        _playerInput.CharacterControls.IsCrouching.canceled -= HandleCrouch;
 
         _playerInput.CharacterControls.Jump.started -= HandleJump;
         _playerInput.CharacterControls.Jump.canceled -= HandleJump;
@@ -104,6 +112,11 @@ public class PlayerMovement : MonoBehaviour
     void HandleRun(InputAction.CallbackContext context)
     {
         isRunPressed = context.ReadValueAsButton();
+    }
+
+    void HandleCrouch(InputAction.CallbackContext context)
+    {
+        isCrouchPressed = context.ReadValueAsButton();
     }
 
     void HandleJump(InputAction.CallbackContext context)
@@ -159,11 +172,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         _characterController.Move(totalMovement);
-
-
-
-        float animationSpeed = isRunPressed ? 1 : 0.5f; // 0.5f - ходьба 1.0f - бег
-        WASDchanged?.Invoke(horizontalMovement.normalized * animationSpeed);
+        WASDchanged?.Invoke(horizontalMovement.normalized);
     }
 
     /// <summary>

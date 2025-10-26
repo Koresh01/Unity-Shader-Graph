@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Run",
+                    "name": "IsRunning",
                     "type": "Button",
                     "id": "9463496f-7c8b-4d80-8418-40321a573313",
                     "expectedControlType": "",
@@ -36,6 +36,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "f527658c-d6d9-482d-99f6-c2b980586367",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "IsCrouching",
+                    "type": "Button",
+                    "id": "e9f7e8cb-68e3-4830-95e0-4eab0aca09a9",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -138,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Run",
+                    "action": "IsRunning",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -149,7 +158,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Run",
+                    "action": "IsRunning",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -172,6 +181,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbc1bfc1-6c9b-403a-86d5-fae75897c858",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IsCrouching",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

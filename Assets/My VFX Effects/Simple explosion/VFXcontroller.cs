@@ -2,13 +2,19 @@
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class ExplosionController : MonoBehaviour
+/// <summary>
+/// Скрипт для создания определённого vfx эффекта и его удаления по истечению времени.
+/// </summary>
+public class VFXcontroller : MonoBehaviour
 {
     [Header("VFX Prefab")]
     [SerializeField] private VisualEffect explosionVFXPrefab;
 
-    [Header("Spawn Settings")]
-    [SerializeField] private float spawnInterval = 3f;
+    [Header("Spawn Settings:")]
+    [SerializeField] private float spawnInterval = 10f;
+
+    [Header("Destory Settings:")]
+    [SerializeField] private float playingTime = 6f;
 
     void Start()
     {
@@ -31,8 +37,8 @@ public class ExplosionController : MonoBehaviour
         // Создаем взрыв в позиции этого объекта
         VisualEffect explosion = Instantiate(explosionVFXPrefab, transform.position, Quaternion.identity);
 
-        // Запускаем и уничтожаем через 5 секунд
+        // Запускаем и уничтожаем через "playingTime" секунд
         explosion.Play();
-        Destroy(explosion.gameObject, 5f);
+        Destroy(explosion.gameObject, playingTime);
     }
 }
